@@ -6,13 +6,14 @@
 			  <el-breadcrumb-item :to="{ path: '/' }"><span  v-on:click="getAllRoot">全部文件</span></el-breadcrumb-item>
 			  <el-breadcrumb-item :to="{ path: '/' }" v-for="item, index_bread in breadData"><span  v-on:click="getFilesByPath(index_bread)">{{item}}</span></el-breadcrumb-item>
 			</el-breadcrumb>
-		</div>
+		</div> 
 		<div class="file_class add_files_class_div" v-on:click="fileUpload">
 			<div class="add_files_class_">
 				<div class="v-line"></div>
 				<div class="h-line"></div>
 			</div>
 			<input id="file" multiple hidden="true" type="file" v-on:change="fileUpload_inputChange"/>
+		
 		</div>
 		<!-- <div class="file_class">
 			<el-upload
