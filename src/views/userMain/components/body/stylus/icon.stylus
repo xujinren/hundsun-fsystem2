@@ -1,14 +1,14 @@
 @font-face 
   font-family: 'icon';
-  src:  url('fonts/icon.eot?eeki75');
-  src:  url('fonts/icon.eot?eeki75#iefix') format('embedded-opentype'),
-    url('fonts/icon.ttf?eeki75') format('truetype'),
-    url('fonts/icon.woff?eeki75') format('woff'),
-    url('fonts/icon.svg?eeki75#icon') format('svg');
+  src:  url('fonts/icon.eot?mg743c');
+  src:  url('fonts/icon.eot?mg743c#iefix') format('embedded-opentype'),
+    url('fonts/icon.ttf?mg743c') format('truetype'),
+    url('fonts/icon.woff?mg743c') format('woff'),
+    url('fonts/icon.svg?mg743c#icon') format('svg');
   font-weight: normal;
   font-style: normal;
-  font-display: block; 
-  
+  font-display: block;
+
 
 [class^="icon-"], [class*=" icon-"] 
   /* use !important to prevent issues with browser extensions that change fonts */
@@ -23,7 +23,10 @@
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+ 
 
+.icon-search:after 
+  content: "\e901";
 
 .icon-localUpload:before 
   content: "\e900";

@@ -1,7 +1,7 @@
 <template>
 	<!-- 文件夹的组件 -->
 	<div id="img" v-on:contextmenu="comRight_($event)" v-on:click="read_img()" :title="'名称:' + item.f_name + '    '
-		+ '创建日期:' + item.f_date
+		+ '创建日期:' + item.f_date + '  文件路径：' + item.f_path
 	">
 	<div class="menu_rightClick" id="menu_right" v-if="menu_right_show">
 		<p  v-on:click.stop="deleteN">删除</p>
@@ -12,7 +12,7 @@
 		</viewer>
 		<!-- <img  class="img_img"  :src="'http://www.xjren.club/fsystem' + item.f_path"/> -->
 		<br/>
-		<span class="span_name">{{item.f_name}}</span>
+		<span class="span_name" v-html="item.f_name"></span>
 	</div>
 </template>
 

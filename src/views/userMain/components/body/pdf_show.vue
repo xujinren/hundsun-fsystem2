@@ -38,18 +38,6 @@ import pdf from 'vue-pdf'
 	},
 　　created: function(){
 　　　　// 有时PDF文件地址会出现跨域的情况,这里最好处理一下
-// 		let this_ = this;
-// 　　　　this.path_ = pdf.createLoadingTask('http://localost:8080/fsystem2/file/getPdfInfo?pid=' + this.pid+"&token=" + this_.$cookie.get("token"));
-// 　　		this.path_ = pdf.createLoadingTask("http://www.xjren.club/fsystem2/../fsystem/" + this.pid);
-			
-// 		this.$axios.post(this_.basicUrl + "file/getPdfInfo",this.$qs.stringify({
-// 			token:this_.$cookie.get("token"),
-// 			pid:this_.pid
-// 		})).then(function(response){
-// 			let data = response.data;
-// 			this_.path_ = data;
-// 		});
-
 	},
     methods: {
       // 改变PDF页码,val传过来区分上一页下一页的值,0上一页,1下一页

@@ -6,6 +6,10 @@
 		</div>
 		<input id="file" multiple hidden="true" type="file" v-on:change="fileUpload_inputChange"/>
 		<span class="create_dir" v-on:click="create_dir">新建文件夹</span>
+		<input class="search_input" v-model="searchText" placeholder="全局搜索您的文件" v-on:keydown="keySearch($event)"/>
+		<i class="icon-search search_input_icon" v-on:click="search"></i>
+		<br/>
+		<br/>
 		<div class="menu_head">
 			<el-breadcrumb separator-class="el-icon-arrow-right" class="breadcrumb_x">
 			  <el-breadcrumb-item :to="{ path: '/' }"><span  v-on:click="getAllRoot">全部文件</span></el-breadcrumb-item>
@@ -93,6 +97,7 @@
 				file:'',
 				show_loading:false,
 				menu_right_show:false,
+				searchText:'',
 				lookUrl:'http://localhost:8082/fsystem/',
 				// officeUrl:'https://view.officeapps.live.com/op/view.aspx?src=',
 				officeUrl:'http://127.0.0.1:8012/onlinePreview?url=',
@@ -226,35 +231,6 @@
 				this.office_path = data;
 				this.path_ =this.officeUrl + encodeURIComponent( this.lookUrl +  this.office_path);
 			},
-			/* wordSome:function(data){
-				// document.getElementById("w_path_").designMode="on";
-				this.w_path = data;
-				// let originUrl  = this.lookUrl + 
-				this.path_ = this.officeUrl + encodeURIComponent(this.lookUrl  + this.w_path);
-			},
-			pptSome:function(data){
-				this.t_path = data;
-				this.path_ =this.officeUrl + encodeURIComponent( this.lookUrl +  this.t_path);
-			},
-			zipSome:function(data){
-				this.zip_path = data;
-				this.path_ =this.officeUrl + encodeURIComponent( this.lookUrl +  this.zip_path);
-				// let this_ = this;
-				// let pa  = '/onlinePreview/' + encodeURIComponent( this.lookUrl +  this.zip_path);
-				
-				// this.$axios.post(pa).then(function(response){
-				// 	let data = response.data;
-				// 	if(data.contains('有任何疑问，请加 官方QQ群：613025121 咨询')){
-				// 		this_.path_ = '不支持这种格式';
-				// 	}
-				// });
-				// console.info(data);
-			},
-			xlsSome:function(data){
-				this.x_path = data;
-				this.path_ =this.officeUrl + encodeURIComponent(this.lookUrl +  this.x_path);
-				console.info(data);
-			}, */
 			dirShow_loading:function(){
 				this.show_loading = true;
 			},
@@ -311,6 +287,39 @@
 				this_.getFileInfoByPath(path);
 				
 			},
+			keySearch:function(e){
+				if(e.keyCode == 13){
+					this.search();
+				}
+			},	
+			//搜索的方法
+			search:function(){
+				if(this.searchText == ''){
+					toastr.error("搜索的内容不能为空！");
+					return ;
+				}
+				let this_ = this;
+				this_.show_loading = true;
+				this.$axios.post(this.basicUrl + "file/search", this.$qs.stringify({
+					token:this_.$cookie.get("token"),
+					keyWord:this_.searchText
+				})).then(function(response){
+					this_.show_loading = false;
+					if(response.data.error_no > 0){
+						toastr.error(response.data.error_info);
+					}else{
+						console.info(response.data);
+						let data = response.data;
+						let files_temp  = data.data;
+						if(files_temp == null || files_temp.length <= 0){
+							toastr.info("抱歉，没有与关键词相匹配的相关文件信息");
+							return ;
+						}
+						this_.breadData = [];
+						this_.files = files_temp;
+					}
+				});
+			},
 			
 			getFileInfoByPath:function(path){
 				let this_ = this;
@@ -362,6 +371,7 @@
 				letter-spacing: 0;
 				.i_class
 					font-size:18px;
+			
 			.create_dir
 				display:block;
 				float:left;
@@ -376,9 +386,29 @@
 				font-size:14px;
 				margin-left:2.3%;
 				border:1px solid #A1A8B3;
+			.search_input
+				width:210px;
+				height:38px;
+				float:right;
+				border-radius:19px;
+				padding-right:40px;
+				border:0px;
+				outline:medium;
+				padding-left:15px;
+				background-color:#F0F1F2;
+			.search_input_icon
+				float: right;
+				position: relative;
+				font-size: 24px;
+				right: -200px;
+				top: 8px; 
+				cursor:pointer;
+				&:hover
+					color:rgb(4,112,255);
 			.menu_head
 				height:30px;
-				width:90%;
+				
+				width:100%;
 			#tim
 				position:absolute;
 				top:0;
@@ -409,36 +439,6 @@
 				border-bottom: 1px solid #e7e7e7;
 				line-height:38px;
 				margin-left:2.3%;
-			.add_files_class_div
-				width:100px;
-				height:122px;
-				margin-top:20px;
-				cursor: pointer;
-				&:hover
-					cursor: pointer;
-					color:blue;
-				.add_files_class_
-					width:90%;
-					margin:15% 5%;
-					height:58%;
-					border:1px dashed #ccc;
-					border-color:#ccc;
-					&:hover
-						border:1px dashed blue;
-						border-color:blue;
-					.v-line
-						width:40px;
-						height:1px;
-						border:1px dashed;
-						margin-top:38%;
-						margin-left:28%;
-					.h-line
-						width:41px;
-						height:1px;
-						border:1px dashed ;
-						margin-left:28%;
-						transform:rotate(90deg);
-						
 				.span_name
 					cursor :pointer;
 					display :block;
