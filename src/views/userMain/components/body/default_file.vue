@@ -61,6 +61,7 @@
 				comRight($event,  this, 'menu_right');
 			},
 			read_default_file:function(){
+				toastr.info("抱歉，暂不支持该文件类型，请期待下一个版本");
 			}
 		}
 	}
@@ -68,19 +69,22 @@
 <style lang="stylus" rel="stylesheet/stylus">
 	#default_file
 		cursor :pointer;
-		width:100px;
-		height:122px;
-		margin-left:20px; 
-		margin-top:20px;
+		width:120px;
+		height:120px;
 		&:hover
-			color:red;
+			color:blue;
 		.default_file_img
-			width:100%;
-			height:80%;
+			width:40%;
+			height:46.6%;
+			margin-top:22%;
+			margin-right:30%;
+			margin-left:30%;
 		.span_name
 			cursor :pointer;
 			display :block;
 			width:100%;
+			font-size:14px;
+			margin-top:10px;;
 			text-align:center;
 			overflow: hidden;
 			text-overflow:ellipsis;

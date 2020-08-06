@@ -61,6 +61,8 @@
 			},
 			enterFile:function(path){
 				let this_ = this;
+				this_.$emit("dirShow_loading");
+				
 				this.$axios.post(this_.basicUrl + "file/getFiles",this_.$qs.stringify({
 					token:this_.$cookie.get("token"),
 					f_path:path
@@ -88,19 +90,24 @@
 <style lang="stylus" rel="stylesheet/stylus">
 	#dir
 		cursor :pointer;
-		width:100px;
-		height:122px;
-		margin-left:20px; 
-		margin-top:20px;
+		width:120px;
+		height:120px;
 		&:hover
 			color:blue;
+			background: #E6F0FF;
+			border-radius: 4px;
 		.dir_img
-			width:100%;
-			height:80%;
+			width:53.3%;
+			height:46.6%;
+			margin-top:22%;
+			margin-right:23.35%;
+			margin-left:23.35%;
 		.span_name
 			cursor :pointer;
 			display :block;
 			width:100%;
+			font-size:14px;
+			margin-top:10px;;
 			text-align:center;
 			overflow: hidden;
 			text-overflow:ellipsis;

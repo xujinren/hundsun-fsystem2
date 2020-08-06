@@ -6,25 +6,26 @@ module.exports = {
 		host:"0.0.0.0",
 		// port:'8080',
 		https:false ,//是否使用https协议
+		
 		proxy:{
+			// http://127.0.0.1:8012/onlinePreview
 			'/fsystem2':{
-				// target:'http://localhost:8082/fsystem2/', //api的服务器地址
-				target:'http://www.xjren.club/fsystem2/',
+				target:'http://localhost:8082/fsystem2/', //api的服务器地址
+				// target:'http://www.xjren.club/fsystem2/',
 				changeOrigin:true,
 				pathRewrite:{
 					'^/fsystem2': ''
 				}
 			},
-			// 'fsystem':{
-			// 	target:'http://www.xjren.club/fsystem/',
+			// 'onlinePreview':{
+			// 	target:'http://1ocalhost:8012/onlinePreview/', //api的服务器地址
+			// 	// target:'http://www.xjren.club/fsystem2/',
 			// 	changeOrigin:true,
 			// 	pathRewrite:{
-			// 		'^/fsystem': ''
+			// 		'^/onlinePreview': 'onlinePreview'
 			// 	}
 			// },
 		}
-	// 	// proxy:"http://localhost:8082/fsystem/",
-	// 	// port: 8080
 	},
 	 // 基本路径
 	  configureWebpack: {
@@ -35,13 +36,6 @@ module.exports = {
 			"windows.jQuery":"jquery"
 		  })
 		],
-		// // toastr插件
-		// plugins: [
-		//     new webpack.ProvidePlugin({
-		//         // Automatically loads modules
-		//         toastr: 'toastr'
-		//      })
-		// ]
 	  },
 	lintOnSave: false, //是否开启eslint
 	

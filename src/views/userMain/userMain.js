@@ -5,10 +5,7 @@ import userMain from './userMain.vue'
 // import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/js/bootstrap.js'
-import qs from 'qs'
-import axios from 'axios'
-//设置全局
-Vue.prototype.$axios = axios
+
 //引入toastr的配置档
 import toastrSetup from './js/toastrSetup.js'
 
@@ -54,8 +51,52 @@ Viewer.setDefaults({
 // import toastr from '@/src/assets/register/js/toastr.js'  
 // // @ts-ignore
 // import  '@/src/assets/register/css/toastr.css'
+import toastr from 'toastr'
+import './css/toastr_config.css'
+
+
+import qs from 'qs'
+import axios from 'axios'
 
 axios.defaults.withCredentials = true //设置跨域，处理sessionid不一致，意思是携带cookie信息,保持session的一致性
+//设置拦截请求
+//请求拦截器
+// axios.interceptors.request.use(
+// 	config=>{
+// 	},
+// 	error=>{
+// 	}
+// );
+
+axios.interceptors.response.use(
+	response =>{
+		// 如果返回的状态码为200，说明接口请求成功，可以正常拿到数据
+		if(response.status == 200){
+			let data = response.data;
+			if(data.error_no == 7){//token过期
+				//重新发送请求获取token
+				axios.post("/fsystem2/user/getNewToken",qs.stringify({
+						oldToken:cookie.get("token")
+					})).then(function(res){
+					let data = res.data;
+					cookie.set("token", data.data,'0');
+					console.info("token : " + data.data);
+					return axios.request(response.config);
+				});
+			}else if(data.error_no == 20){ //被抢占登录
+				document.write(data.data);
+			}else{
+				return response;
+			}
+		}
+	},
+);
+
+
+
+
+//设置全局
+Vue.prototype.$axios = axios
 Vue.prototype.$qs = qs
 Vue.config.productionTip = false
 

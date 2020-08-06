@@ -8,7 +8,7 @@
 	</div>
 		<!-- <i class="icon-download  class_i"></i> -->
 		<viewer :images="paths" >
-			<img class="img_img" v-for="(item2,index) in paths" :src="'http://www.xjren.club/fsystem' + item2" :key="index">
+			<img class="img_img" v-for="(item2,index) in paths" :src=" lookUrl + item2" :key="index">
 		</viewer>
 		<!-- <img  class="img_img"  :src="'http://www.xjren.club/fsystem' + item.f_path"/> -->
 		<br/>
@@ -33,6 +33,7 @@
 				absolutePath:'',
 				paths:[],
 				menu_right_show:false,
+				lookUrl:'http://localhost:8082/fsystem/',
 			}
 		},
 		methods:{
@@ -98,22 +99,26 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-	@import './stylus/stylus.styl'
 	#img
 		cursor :pointer;
-		width:100px;
-		height:122px;
-		margin-left:20px; 
-		margin-top:20px;
+		width:120px;
+		height:120px;
 		&:hover
 			color:blue;
-		.img_img
-			width:80px;
-			height:80px;
-		.span_name
+			background: #E6F0FF;
+			border-radius: 4px;
+		.img_img 
+			width:48px;
+			height:56px; 
+			margin-top:22%; 
+			margin-right:30%; 
+			margin-left:30%; 
+		.span_name 
 			cursor :pointer;
 			display :block;
 			width:100%;
+			font-size:14px;
+			margin-top:-10px;;
 			text-align:center;
 			overflow: hidden;
 			text-overflow:ellipsis;

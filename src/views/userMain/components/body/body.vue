@@ -1,52 +1,30 @@
 <template>
 	<div id="context">
+		<div class="upload_class" v-on:click="fileUpload">
+			<i class="icon-localUpload  i_class"></i>
+			<span>上传</span>
+		</div>
+		<input id="file" multiple hidden="true" type="file" v-on:change="fileUpload_inputChange"/>
 		<span class="create_dir" v-on:click="create_dir">新建文件夹</span>
 		<div class="menu_head">
 			<el-breadcrumb separator-class="el-icon-arrow-right" class="breadcrumb_x">
 			  <el-breadcrumb-item :to="{ path: '/' }"><span  v-on:click="getAllRoot">全部文件</span></el-breadcrumb-item>
 			  <el-breadcrumb-item :to="{ path: '/' }" v-for="item, index_bread in breadData"><span  v-on:click="getFilesByPath(index_bread)">{{item}}</span></el-breadcrumb-item>
 			</el-breadcrumb>
-		</div> 
-		<div class="file_class add_files_class_div" v-on:click="fileUpload">
-			<div class="add_files_class_">
-				<div class="v-line"></div>
-				<div class="h-line"></div>
-			</div>
-			<input id="file" multiple hidden="true" type="file" v-on:change="fileUpload_inputChange"/>
-		
-		</div>
-		<!-- <div class="file_class">
-			<el-upload
-			  action=""
-			  list-type="picture-card"
-			  :auto-upload="false"
-			  :limit="10"
-			  :on-preview="handlePictureCardPreview"
-			  :on-remove="handleRemove"
-			  :on-change="fileChange"
-			  :on-success="file_success"
-			  :on-progress="propress"
-			  :multiple="true"
-			  :on-exceed="exceed"
-			  accept="*"
-			  name="file_simgle" 
-			  :file-list="fileList"
-			  >
-			  <i class="el-icon-plus"></i>
-			</el-upload>
-		</div> -->
-		<ul>
+		</div>  
+		<ul class="ul_class">
 			<li class="file_class" v-for="item1, index in files" >
-					<dir_x  :item="item1" v-if="item1.f_type == 'dir'"  v-on:dirSome = "dirSome" v-on:deleteOk="deleteOk"></dir_x>
+					<dir_x  :item="item1" v-if="item1.f_type == 'dir'"  v-on:dirSome = "dirSome" v-on:deleteOk="deleteOk" v-on:dirShow_loading="dirShow_loading"></dir_x>
+					
 					<pdf_x  :item="item1"  v-else-if="item1.f_type == 'pdf'" v-on:pdfSome="pdfSome" v-on:deleteOk="deleteOk"></pdf_x>
-					<word_x  :item="item1"  v-else-if="item1.f_type == 'word'" v-on:wordSome="wordSome" v-on:deleteOk="deleteOk"></word_x>
-					<ppt_x  :item="item1"  v-else-if="item1.f_type == 'ppt'" v-on:pptSome="pptSome" v-on:deleteOk="deleteOk"></ppt_x>
-					<xls_x  :item="item1"  v-else-if="item1.f_type == 'xls'" v-on:xlsSome="xlsSome" v-on:deleteOk="deleteOk"></xls_x>
-					<xls_x  :item="item1"  v-else-if="item1.f_type == 'xlsx'" v-on:xlsSome="xlsSome" v-on:deleteOk="deleteOk"></xls_x>
+					<txt_x  :item="item1"  v-else-if="item1.f_type == 'txt'" v-on:txtSome="txtSome" v-on:deleteOk="deleteOk"></txt_x>
+					
 					<img_x  :item="item1"  v-else-if="item1.f_type == 'gif'" v-on:imgSome="imgSome" v-on:deleteOk="deleteOk"></img_x>
 					<img_x  :item="item1"  v-else-if="item1.f_type == 'jpeg'" v-on:imgSome="imgSome" v-on:deleteOk="deleteOk"></img_x>
 					<img_x  :item="item1"  v-else-if="item1.f_type == 'jpg'" v-on:imgSome="imgSome" v-on:deleteOk="deleteOk"></img_x>
 					<img_x  :item="item1"  v-else-if="item1.f_type == 'png'" v-on:imgSome="imgSome" v-on:deleteOk="deleteOk"></img_x>
+					<img_x  :item="item1"  v-else-if="item1.f_type == 'icon'" v-on:imgSome="imgSome" v-on:deleteOk="deleteOk"></img_x>
+					<office_x  :item="item1"  v-else-if="item1.f_type == 'ppt' ||item1.f_type == 'pptx'||item1.f_type == 'doc' ||item1.f_type == 'docx'  ||item1.f_type == 'xls'||item1.f_type == 'xlsx' ||item1.f_type == 'zip' ||item1.f_type == 'word'" v-on:officeSome="officeSome" v-on:deleteOk="deleteOk"></office_x>
 					<default_file :item="item1" v-else v-on:deleteOk="deleteOk"></default_file>
 			</li>
 		</ul>
@@ -57,10 +35,9 @@
 		<iframeShow :path="path_" v-if="path_ != ''" v-on:filePreviewCancel="filePreviewCancel"></iframeShow>
 		<!-- <iframeShowPdf id="w_path_" :path="'https://view.officeapps.live.com/op/view.aspx?src=http://www.xjren.club/fsystem/' + w_path" v-if="w_path != ''" v-on:filePreviewCancel="filePreviewCancel"  frameborder="1"  scrolling="no"></iframeShowPdf> -->
 		<!-- <iframeShowPdf :path= "'http://www.xjren.club/fsystem/' + t_path" v-if="t_path != ''" v-on:filePreviewCancel="filePreviewCancel"></iframeShowPdf> -->
-		<div id="tim">
-			<img  class="img_c" src="../../../../assets/timg.gif" v-if="show_loading"/>
+		<div id="tim"  v-if="show_loading">
+			<img class="img_c" src="../../../../assets/loading.gif"/>
 		</div>
-		
 		<div class="menu_rightClick" id="menu_right" v-if="menu_right_show">
 			<p>重命名</p>
 			<p>删除</p>
@@ -77,13 +54,13 @@
 	// import bus from  './eventBus.js'
 	import pdf_x from './pdf.vue'
 	// import pdf_show from './pdf_show.vue'
-	import word_x from './word.vue'
 	import iframeShow from "./iframeShow.vue"
-	import ppt_x from './ppt.vue'
 	import default_file from './default_file.vue'
 	import img_x from './img.vue'
-	import xls_x from './xls.vue'
+	import txt_x from './txt.vue'
+	import office_x from './office.vue'
 	import   './js/comRight.js'
+	
 	export default{
 		props:['items'], 
 		components:{
@@ -91,11 +68,10 @@
 			pdf_x:pdf_x,
 			// pdf_show:pdf_show, 
 			iframeShow:iframeShow,
-			word_x:word_x,
-			ppt_x:ppt_x,
 			default_file:default_file,
 			img_x:img_x,
-			xls_x:xls_x,
+			txt_x:txt_x,
+			office_x:office_x,
 		},
 		data(){
 			return{
@@ -107,6 +83,8 @@
 				t_path:'',
 				i_path:'',
 				x_path:'',
+				office_path:'',
+				txt_path:'',
 				path_:'',
 				breadData:[],
 				dialogImageUrl: '',
@@ -115,6 +93,10 @@
 				file:'',
 				show_loading:false,
 				menu_right_show:false,
+				lookUrl:'http://localhost:8082/fsystem/',
+				// officeUrl:'https://view.officeapps.live.com/op/view.aspx?src=',
+				officeUrl:'http://127.0.0.1:8012/onlinePreview?url=',
+				zip_path:'',
 				// img_src:'',
 				// returnPath:[]
 			}
@@ -227,38 +209,61 @@
 			pushHistory:function(url){
 				window.history.pushState(null,null,url);
 			},
+			txtSome:function(data){
+				this.txt_path = data;
+				this.path_ =this.lookUrl +  this.txt_path;
+			},
 			imgSome:function(data){
 				this.i_path = data;
 				// this.path_ ="http://www.xjren.club/fsystem/" +  this.i_path;
 				// this.img_src=["http://www.xjren.club/fsystem/" +  this.i_path];
-				console.info(data);
 			},
 			pdfSome:function(data){
 				this.p_path = data;
-				this.path_ ="http://www.xjren.club/fsystem/" +  this.p_path;
-				console.info(data);
+				this.path_ = this.lookUrl +  this.p_path;
 			},
-			wordSome:function(data){
+			officeSome:function(data){
+				this.office_path = data;
+				this.path_ =this.officeUrl + encodeURIComponent( this.lookUrl +  this.office_path);
+			},
+			/* wordSome:function(data){
 				// document.getElementById("w_path_").designMode="on";
 				this.w_path = data;
-				this.path_ = 'https://view.officeapps.live.com/op/view.aspx?src=http://www.xjren.club/fsystem/' + this.w_path;
-				console.info(data);
-				
+				// let originUrl  = this.lookUrl + 
+				this.path_ = this.officeUrl + encodeURIComponent(this.lookUrl  + this.w_path);
 			},
 			pptSome:function(data){
 				this.t_path = data;
-				this.path_ ='https://view.officeapps.live.com/op/view.aspx?src=http://www.xjren.club/fsystem/' +  this.t_path;
-				console.info(data);
+				this.path_ =this.officeUrl + encodeURIComponent( this.lookUrl +  this.t_path);
+			},
+			zipSome:function(data){
+				this.zip_path = data;
+				this.path_ =this.officeUrl + encodeURIComponent( this.lookUrl +  this.zip_path);
+				// let this_ = this;
+				// let pa  = '/onlinePreview/' + encodeURIComponent( this.lookUrl +  this.zip_path);
+				
+				// this.$axios.post(pa).then(function(response){
+				// 	let data = response.data;
+				// 	if(data.contains('有任何疑问，请加 官方QQ群：613025121 咨询')){
+				// 		this_.path_ = '不支持这种格式';
+				// 	}
+				// });
+				// console.info(data);
 			},
 			xlsSome:function(data){
 				this.x_path = data;
-				this.path_ ='https://view.officeapps.live.com/op/view.aspx?src=http://www.xjren.club/fsystem/' +  this.x_path;
+				this.path_ =this.officeUrl + encodeURIComponent(this.lookUrl +  this.x_path);
 				console.info(data);
+			}, */
+			dirShow_loading:function(){
+				this.show_loading = true;
 			},
 			dirSome:function(data){
 				console.info(data);
 				let temp = data;
 				this.files = temp.data;
+			
+			
 				//要将文件夹的相对路径传过来
 				let pre_temp = temp.preData;
 				let this_ = this;
@@ -269,9 +274,11 @@
 				for(let i = 1, len = arrs.length;i< len; i ++){
 					this_.breadData.push(arrs[i]);
 				}
+				this.show_loading = false;
 			},
 			filePreviewCancel:function(data){
 				this.p_path = data;
+				this.zip_path = data;
 				this.w_path = data;
 				this.t_path = data;
 				this.path_ = data;
@@ -279,10 +286,12 @@
 			},
 			getAllRoot:function(){
 				let this_ = this;
+				this.show_loading = true;
 				this.$axios.post(this.basicUrl + "file/getRoot", 
 					this_.$qs.stringify({
 						token:this_.$cookie.get("token")
 					})).then(function(response){
+						this_.show_loading = false;
 						let data = response.data;
 						this_.$nextTick(()=>{
 							this_.files = data.data;
@@ -305,14 +314,16 @@
 			
 			getFileInfoByPath:function(path){
 				let this_ = this;
+				this.show_loading = true;
 				this.$axios.post(this.basicUrl + "file/getFileInfoByPath",this.$qs.stringify({
 					token:this_.$cookie.get("token"),
 					path:path
 				})).then(function(response){
+					this_.show_loading = false;
 					let data = response.data;
 					if(data.error_no > 0){
 						toastr.error(data.error_info);
-					}else{
+					}else{ 
 						this_.files = data.data;
 						//同时改变面包屑
 						this_.breadData = [];
@@ -328,47 +339,76 @@
 	}
 </script>
 <style lang = "stylus" rel="stylesheet/stylus">
-	@import "./stylus/stylus.styl"
+	@import "./stylus/icon.stylus"
 		#context
-			height:auto;
+			height:auto; 
+			font-family: PingFangSC-Regular;
+			letter-spacing: 0;
+			.ul_class
+				margin-top:30px;
+			.upload_class
+				display:block;
+				float:left; 
+				width:100px; 
+				height:38px;
+				border-radius:4px;
+				background-color:#0470FF;
+				color:white; 
+				line-height:38px;
+				cursor:pointer;
+				text-align:center;
+				font-size: 14px; 
+				color: #FFFFFF;
+				letter-spacing: 0;
+				.i_class
+					font-size:18px;
 			.create_dir
 				display:block;
 				float:left;
-				width:80px;
-				height:30px;
-				background-color:#51c1f5;
-				color:white;
+				width:100px;
+				height:38px;
+				background-color:white;
+				border-radius:4px;
+				color:#0470FF;
 				text-align:center;
-				line-height:30px;
+				line-height:38px;
 				cursor:pointer;
 				font-size:14px;
+				margin-left:2.3%;
+				border:1px solid #A1A8B3;
 			.menu_head
 				height:30px;
 				width:90%;
-			.tim
+			#tim
 				position:absolute;
 				top:0;
 				left:0;
-				width:10%;
+				width:100%;
 				height:100%;
-				opacity:0.5;
-				z-index:999; 
+				opacity:0.3;
+				z-index:9999;
 				background-color:black;
 				.img_c
-					margin-top:-120px;
+					width:100%;
+					height:100%;
 			.file_class
 				float:left;
 				list-style:none;
+				width:120px;
+				height:120px;
 			.show_context
-				w_pathth:1366px;
-				height:768px;
+				position:absolute;
+				top:0;
+				left:0;
+				width:100%;
+				height:100%;
 				background-color:rgb(0,0,0,0.4);
 				position: absolute;
 				left:0px;
 			.breadcrumb_x
 				border-bottom: 1px solid #e7e7e7;
-				padding-bottom:6px;
-			
+				line-height:38px;
+				margin-left:2.3%;
 			.add_files_class_div
 				width:100px;
 				height:122px;

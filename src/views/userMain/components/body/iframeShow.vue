@@ -9,7 +9,9 @@
         <div class="header_right" @click="filePreviewCancel">关闭</div>
       </div>
       <div class="center_center">
-        <iframe :src="path" frameborder="0" style="width: 100%; height: 100%"></iframe>
+        <iframe :src="path" frameborder="0" style="width: 100%; height: 100%">
+			正在努力加载中，请稍候......
+		</iframe>
       </div>
     </div>
   </div>

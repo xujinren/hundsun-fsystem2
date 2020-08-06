@@ -33,6 +33,7 @@
 				this_.$qs.stringify({
 					token:this_.$cookie.get("token")
 				})).then(function(response){
+					console.info(response);
 					let data = response.data;
 					this_.$nextTick(()=>{
 						this_.files = data.data;
@@ -43,7 +44,6 @@
 	
 </script>
 <style lang="stylus" rel="stylesheet/stylus">
-	@import "./stylus/icon.stylus"
 	#userMain
 		.foot
 			width:100%;
@@ -55,15 +55,15 @@
 		.left
 			margin-left:50px;
 			margin-top:150px;
-			width:15%;
-			height:auto;
+			width:15%; 
+			height:auto; 
 			float:left;
 		.context
-			width:80%;
+			width:90%;
 			height:auto;
-			margin-top:170px;
-			padding:0px;
 			margin:0px auto;
-			margin-top:150px;
+			margin-top:90px;
+			padding:0px;
+			
 			
 </style>

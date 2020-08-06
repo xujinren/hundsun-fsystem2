@@ -1,12 +1,12 @@
 <template>
 	<!-- 文件夹的组件 -->
-	<div id="word"  v-on:contextmenu="comRight_($event)" v-on:click="read_word" :title="'名称:' + item.f_name + '    '
+	<div id="txt" v-on:contextmenu="comRight_($event)"  v-on:click="read_txt"  :title="'名称:' + item.f_name + '    '
 		+ '创建日期:' + item.f_date
-	">
+	"><!-- -->
 		<div class="menu_rightClick" id="menu_right" v-if="menu_right_show">
 			<p  v-on:click.stop="deleteN">删除</p>
 		</div>
-		<img  class="word_img"  src="../../../../assets/word.png"/>
+		<img  class="txt_img"  src="../../../../assets/txt.png"/>
 		<br/>
 		<span class="span_name">{{item.f_name}}</span>
 	</div>
@@ -60,50 +60,38 @@
 			comRight_:function($event){
 				comRight($event,  this, 'menu_right');
 			},
-			read_word:function(){
+			read_txt:function(){
 				// let this_ = this;
-				// this_.$emit("wordSome", id);
+				// this_.$emit("txtSome", id);
 				// 发送请求查询绝对路径
 				let this_ = this;
-				this_.$emit("wordSome", this_.item.f_path);
+				this_.$emit("txtSome",this_.item.f_path);
 				this_.absolutePath = this_.item.f_path;
-				// this.$axios.post(this_.basicUrl + "file/getAbsolutePathByFid",
-				// 	this.$qs.stringify({
-				// 		token:this_.$cookie.get("token"),
-				// 		fid:id
-				// 	})
-				// ).then(function(response){
-				// 	let data = response.data;
-				// 	if(data.error_no > 0){
-				// 		toastr.error(data.error_info);
-				// 		return ;
-				// 	}else{
-				// 		this_.$emit("wordSome", data.data);
-				// 		this_.absolutePath = data.data;
-				// 		// window.open("http://www.xjren.club/fsystem" + this_.absolutePath,"_blank");
-				// 	}
-				// });
 			}
 		}
 	}
 </script>
-
 <style lang="stylus" rel="stylesheet/stylus">
-	#word
+	#txt
 		cursor :pointer;
-		width:100px;
-		height:122px;
-		margin-left:20px; 
-		margin-top:20px;
+		width:120px;
+		height:120px;
 		&:hover
 			color:blue;
-		.word_img
-			width:100%;
-			height:80%;
+			background: #E6F0FF;
+			border-radius: 4px;
+		.txt_img
+			width:40%;
+			height:46.6%;
+			margin-top:22%;
+			margin-right:30%;
+			margin-left:30%;
 		.span_name
 			cursor :pointer;
 			display :block;
 			width:100%;
+			font-size:14px;
+			margin-top:10px;;
 			text-align:center;
 			overflow: hidden;
 			text-overflow:ellipsis;
@@ -126,5 +114,4 @@
 				border-bottom:1px solid #999;
 				&:hover
 					background-color:#c1c1c1;
-			
 </style>

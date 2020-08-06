@@ -85,6 +85,7 @@
 						}else{
 							toastr.success("登录成功！");
 							this_.$cookie.set("token", data.data,"0");
+							console.info("token login :" + data.data );
 							location.href="../userMain/userMain.html";
 						}
 					});
