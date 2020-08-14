@@ -28,8 +28,8 @@
 	export default{
 		data(){
 			return{
-				uname:"a12345",
-				upassword:"a12345",
+				uname:"",
+				upassword:"",
 				uname_info:"",
 				upassword_info:"",
 				uname_info_flag:false,
@@ -38,7 +38,12 @@
 			}
 		},
 		mounted:function(){
-			
+			let this_ = this;
+			document.onkeydown = function(e){
+				if(e.keyCode == 13){
+					this_.sumbit_click();
+				}
+			}
 		},
 		methods:{
 			 blur_input_uname:function(){
@@ -86,7 +91,7 @@
 							toastr.success("登录成功！");
 							this_.$cookie.set("token", data.data,"0");
 							console.info("token login :" + data.data );
-							location.href="../userMain/userMain.html";
+							location.href="./userMain.html";
 						}
 					});
 				}
@@ -94,7 +99,7 @@
 		},
 	}
 </script>
-<style lang="stylus" rel="stylesheet/stylus">
+<style lang="stylus" rel="stylesheet/stylus"> 
 	@import "./stylus/icon.stylus"
 	#login
 		#login_div

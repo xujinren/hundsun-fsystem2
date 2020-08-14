@@ -51,13 +51,10 @@
 					}else{
 						//删除token
 						this_.$cookie.delete("token");
-						location.href="../login.html";
+						location.href="./login.html";
 					}
 				});
 			},
-			
-			
-			
 		}
 	}
 	
@@ -106,8 +103,8 @@
 			.user_info_span
 				display :block;
 				width:80px;
-				height:auto;
-				margin-right:10px; 
+				height:auto; 
+				margin-right:31px; 
 				float:right;
 				margin-top:25px;
 				cursor :pointer;
